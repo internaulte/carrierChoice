@@ -6,3 +6,5 @@ lazy val root = (project in file("."))
   .settings(
     name := "carrierChoice"
   )
+
+libraryDependencies += "com.lihaoyi" %% "cask" % "0.8.0"
