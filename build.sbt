@@ -7,4 +7,5 @@ lazy val root = (project in file("."))
     name := "carrierChoice"
   )
 
-libraryDependencies += "com.lihaoyi" %% "cask" % "0.8.0"
+libraryDependencies += "com.lihaoyi" %% "cask"        % "0.8.0"
+libraryDependencies += "dev.zio"     %% "zio-prelude" % "1.0.0-RC13"
