@@ -22,6 +22,11 @@ object PositiveOrZeroReal extends Subtype[Double] {
     if (x == 0 || product / x != y) PositiveOrZeroReal(Double.MaxValue) else wrap(product)
   }
 
+  def divides(x: PositiveOrZeroReal, y: PositiveOrZeroReal): PositiveOrZeroReal = {
+    val division = x / y
+    if (x == 0 || division * y != x) PositiveOrZeroReal(Double.MaxValue) else wrap(division)
+  }
+
   def plus(x: PositiveOrZeroReal, y: PositiveOrZeroReal): PositiveOrZeroReal = {
     val sum = x + y
     if (sum < 0) PositiveOrZeroReal(Double.MaxValue) else wrap(sum)
@@ -30,6 +35,14 @@ object PositiveOrZeroReal extends Subtype[Double] {
   def minus(x: PositiveOrZeroReal, y: PositiveOrZeroReal): PositiveOrZeroReal = {
     val difference = x - y
     if (difference < 0) zero else wrap(difference)
+  }
+  
+  def max(x: PositiveOrZeroReal, y: PositiveOrZeroReal): PositiveOrZeroReal = {
+    if (x < y) y else x
+  }
+
+  def min(x: PositiveOrZeroReal, y: PositiveOrZeroReal): PositiveOrZeroReal = {
+    if (x < y) x else y
   }
 
   def unsafeMake(n: Double): PositiveOrZeroReal =
