@@ -1,15 +1,15 @@
 package domain.entities
 
-import domain.entities.utils.{Point, PositiveOrZeroReal}
-import domain.entities.utils.Types.{DistanceInKm, VolumeInCm, WeightInKg}
+import domain.entities.utils.Types.{DistanceInMeters, VolumeInMillim3, WeightInGram}
+import domain.entities.utils.{LongNatural, Point}
 import zio.prelude.NonEmptySet
 
 import java.util.UUID
 
 sealed trait BaseDeliveryTrait {
-  val totalVolume: VolumeInCm
-  val maxPackageWeight: WeightInKg
-  val totalWeight: WeightInKg
+  val totalVolume: VolumeInMillim3
+  val maxPackageWeight: WeightInGram
+  val totalWeight: WeightInGram
   val deliveryTimeRange: DeliveryTimeRange
 }
 
@@ -20,24 +20,24 @@ final case class Delivery(
     deliveryTimeRange: DeliveryTimeRange,
     packages: NonEmptySet[Package]
 ) extends BaseDeliveryTrait {
-  val (totalVolume: VolumeInCm, maxPackageWeight: WeightInKg, totalWeight: WeightInKg) = packages.foldLeft(
-    (PositiveOrZeroReal.zero, PositiveOrZeroReal.zero, PositiveOrZeroReal.zero)
+  val (totalVolume: VolumeInMillim3, maxPackageWeight: WeightInGram, totalWeight: WeightInGram) = packages.foldLeft(
+    (LongNatural.zero, LongNatural.zero, LongNatural.zero)
   ) {
     case ((totalVolume, maxSampleWeight, totalWeight), currentPackage) =>
       (
-        PositiveOrZeroReal.plus(totalVolume, currentPackage.volume),
-        PositiveOrZeroReal.max(maxSampleWeight, currentPackage.weightInKg),
-        PositiveOrZeroReal.plus(totalWeight, currentPackage.weightInKg)
+        LongNatural.plus(totalVolume, currentPackage.volume),
+        LongNatural.max(maxSampleWeight, currentPackage.weightInGram),
+        LongNatural.plus(totalWeight, currentPackage.weightInGram)
       )
   }
 
-  lazy val travelDistance: DistanceInKm = destination.distanceInKmTo(withdrawal)
+  lazy val travelDistance: DistanceInMeters = destination.distanceInMetersTo(withdrawal)
 }
 
 final case class DeliveryCategory(
     deliveryTimeRange: DeliveryTimeRange,
     deliveryArea: Area,
-    totalWeight: WeightInKg,
-    totalVolume: VolumeInCm,
-    maxPackageWeight: WeightInKg
+    totalWeight: WeightInGram,
+    totalVolume: VolumeInMillim3,
+    maxPackageWeight: WeightInGram
 ) extends BaseDeliveryTrait

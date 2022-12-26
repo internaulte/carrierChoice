@@ -1,9 +1,9 @@
 package adapters.controllers.dtos
 
 import domain.entities.Area
-import domain.entities.utils.Types.DistanceInKm
+import domain.entities.utils.Types.DistanceInMeters
 
-protected[controllers] final case class AreaDto(center: PointDto, radius: DistanceInKm) {
+protected[controllers] final case class AreaDto(center: PointDto, radius: DistanceInMeters) {
   def toArea: Area = {
     Area(center = center.toPoint, radius = radius)
   }

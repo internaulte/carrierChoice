@@ -17,9 +17,22 @@ object LongNatural extends Subtype[Long] {
   def successor(n: LongNatural): LongNatural =
     wrap(n + 1)
 
+  def getAbsoluteValue(number: Long): LongNatural = {
+    if (number > 0) {
+      wrap(number)
+    } else {
+      wrap(-number)
+    }
+  }
+
   def times(x: LongNatural, y: LongNatural): LongNatural = {
     val product = x * y
     if (x == 0 || product / x != y) LongNatural(Long.MaxValue) else wrap(product)
+  }
+
+  def divides(x: LongNatural, y: LongNatural): LongNatural = {
+    val division = x / y
+    if (x == 0 || division * y != x) LongNatural(Long.MaxValue) else wrap(division)
   }
 
   def plus(x: LongNatural, y: LongNatural): LongNatural = {
@@ -32,6 +45,7 @@ object LongNatural extends Subtype[Long] {
     if (difference < 0) zero else wrap(difference)
   }
 
-  def unsafeMake(n: Long): LongNatural =
-    wrap(n)
+  def max(x: LongNatural, y: LongNatural): LongNatural = {
+    if (x < y) y else x
+  }
 }

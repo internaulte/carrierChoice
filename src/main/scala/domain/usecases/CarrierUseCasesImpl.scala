@@ -1,7 +1,7 @@
 package domain.usecases
 
 import adapters.repositories.interfaces.CarrierRepository
-import domain.entities.utils.Types.{PositiveOrZeroReal, SpeedInKmH}
+import domain.entities.utils.Types.{CostInMillis, SpeedInMetersPerSecond}
 import domain.entities.*
 import domain.usecases.interfaces.CarrierUseCases
 import zio.prelude.NonEmptySet
@@ -14,8 +14,8 @@ import scala.concurrent.Future
 protected class CarrierUseCasesImpl(private val carrierRepository: CarrierRepository) extends CarrierUseCases {
   override def createCarrier(
       deliveryCategory: DeliveryCategory,
-      averageSpeed: SpeedInKmH,
-      costPerRide: PositiveOrZeroReal,
+      averageSpeed: SpeedInMetersPerSecond,
+      costPerRide: CostInMillis,
       carrierId: UUID
   ): Future[Carrier] = {
     val newCarrier = Carrier(

@@ -1,14 +1,14 @@
 package adapters.controllers.dtos
 
 import domain.entities.{Area, DeliveryCategory, DeliveryTimeRange}
-import domain.entities.utils.Types.{VolumeInCm, WeightInKg}
+import domain.entities.utils.Types.{VolumeInMillim3, WeightInGram}
 
 protected[controllers] final case class DeliveryCategoryDto(
     deliveryTimeRange: DeliveryTimeRangeDto,
     deliveryArea: AreaDto,
-    totalWeight: WeightInKg,
-    totalVolume: VolumeInCm,
-    maxPackageWeight: WeightInKg
+    totalWeight: WeightInGram,
+    totalVolume: VolumeInMillim3,
+    maxPackageWeight: WeightInGram
 ) {
   def toDeliveryCategory: DeliveryCategory = {
     DeliveryCategory(

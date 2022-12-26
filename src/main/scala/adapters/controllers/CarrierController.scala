@@ -1,7 +1,7 @@
 package adapters.controllers
 
 import adapters.controllers.dtos.*
-import domain.entities.utils.Types.{PositiveOrZeroReal, SpeedInKmH}
+import domain.entities.utils.Types.{CostInMillis, SpeedInMetersPerSecond}
 import domain.usecases.interfaces.CarrierUseCases
 
 import java.util.UUID
@@ -14,8 +14,8 @@ object CarrierController extends cask.MainRoutes {
   @cask.post("/carrier")
   def createCarrier(
       deliveryCategory: DeliveryCategoryDto,
-      averageSpeed: SpeedInKmH,
-      costPerRide: PositiveOrZeroReal
+      averageSpeed: SpeedInMetersPerSecond,
+      costPerRide: CostInMillis
   ): Unit = {
     val result = for {
       _ <- canUserCreate

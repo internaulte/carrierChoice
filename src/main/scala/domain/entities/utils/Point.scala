@@ -1,15 +1,17 @@
 package domain.entities.utils
 
-import domain.entities.utils.Types.{DistanceInKm, Latitude, Longitude, PositiveOrZeroReal}
+import domain.entities.utils.Types.{DistanceInMeters, Latitude, Longitude, LatitudeInRadiants}
+import domain.entities.utils.LongNatural
+
 import zio.prelude.ZValidation
 
 import scala.math.*
 
 final case class Point(latitude: Latitude, longitude: Longitude) {
-  lazy val latitudeAsRadians: Latitude = math.toRadians(latitude)
-  lazy val longitudeAsRadians: Latitude = math.toRadians(longitude)
+  lazy val latitudeAsRadians: LatitudeInRadiants = math.toRadians(latitude)
+  lazy val longitudeAsRadians: LatitudeInRadiants = math.toRadians(longitude)
 
-  def distanceInKmTo(otherPoint: Point): DistanceInKm = {
+  def distanceInMetersTo(otherPoint: Point): DistanceInMeters = {
     val (dLat, dLon) = (otherPoint.latitudeAsRadians, otherPoint.longitudeAsRadians)
     val deltaLat = dLat - this.latitudeAsRadians
     val deltaLon = dLon - this.longitudeAsRadians
@@ -18,13 +20,8 @@ final case class Point(latitude: Latitude, longitude: Longitude) {
     val earthRadiusMiles = 3958.761
     val earthRadiusMeters = earthRadiusMiles / 0.00062137
     val distanceInMeters = earthRadiusMeters * greatCircleDistance
-    val result = distanceInMeters / 1000
 
-    if (result < 0) {
-      PositiveOrZeroReal.unsafeMake(-result)
-    } else {
-      PositiveOrZeroReal.unsafeMake(result)
-    }
+    LongNatural.getAbsoluteValue(distanceInMeters.toLong)
   }
 
 }

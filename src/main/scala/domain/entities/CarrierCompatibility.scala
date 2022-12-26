@@ -1,7 +1,5 @@
 package domain.entities
 
-import domain.entities.utils.PositiveOrZeroReal
-import domain.entities.utils.Types.PositiveOrZeroReal
 import zio.prelude.newtypes.Natural
 
 sealed trait CarrierCompatibility {
@@ -9,13 +7,13 @@ sealed trait CarrierCompatibility {
 }
 
 case object FullyCompatible extends CarrierCompatibility {
-  override val score: Natural = Natural(4)
+  override final val score: Natural = Natural(4)
 }
 
-final case class PartiallyCompatible(override val score: Natural) extends CarrierCompatibility
+sealed case class PartiallyCompatible(override final val score: Natural) extends CarrierCompatibility
 
 case object NotCompatible extends CarrierCompatibility {
-  override val score: Natural = Natural.zero
+  override final val score: Natural = Natural.zero
 }
 
 object CarrierCompatibility {
