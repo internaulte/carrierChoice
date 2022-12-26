@@ -1,19 +1,19 @@
 package domain.entities
 
 import domain.entities.utils.Point
-import domain.entities.utils.Types.DistanceInKm
+import domain.entities.utils.Types.DistanceInMeters
 
-final case class Area(center: Point, radius: DistanceInKm) {
+final case class Area(center: Point, radius: DistanceInMeters) {
   def isPointInArea(point: Point): Boolean = {
     if (this.center == point) {
       true
     } else {
-      this.center.distanceInKmTo(point) <= this.radius
+      this.center.distanceInMetersTo(point) <= this.radius
     }
   }
 
   def isAreaContainsOther(otherArea: Area): Boolean = {
-    val distanceOfCenters = this.center.distanceInKmTo(otherArea.center)
+    val distanceOfCenters = this.center.distanceInMetersTo(otherArea.center)
     val maxOtherAreaDistanceToThisCenter = otherArea.radius + distanceOfCenters
 
     maxOtherAreaDistanceToThisCenter <= this.radius

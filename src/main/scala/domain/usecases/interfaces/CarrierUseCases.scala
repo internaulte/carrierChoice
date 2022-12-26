@@ -1,8 +1,8 @@
 package domain.usecases.interfaces
 
 import adapters.repositories.interfaces.CarrierRepository
-import domain.entities.utils.Types.{PositiveOrZeroReal, SpeedInKmH}
-import domain.entities.{Carrier, CarrierCompatibility, CarrierWithCompatibility, Delivery, DeliveryCategory}
+import domain.entities.utils.Types.{CostInMillis, SpeedInMetersPerSecond}
+import domain.entities.*
 import domain.usecases.CarrierUseCasesImpl
 
 import java.util.UUID
@@ -11,8 +11,8 @@ import scala.concurrent.Future
 trait CarrierUseCases {
   def createCarrier(
       deliveryCategory: DeliveryCategory,
-      averageSpeed: SpeedInKmH,
-      costPerRide: PositiveOrZeroReal,
+      averageSpeed: SpeedInMetersPerSecond,
+      costPerRide: CostInMillis,
       carrierId: UUID = UUID.randomUUID()
   ): Future[Carrier]
 

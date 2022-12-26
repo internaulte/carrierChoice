@@ -1,7 +1,7 @@
 package domain.entities
 
-import domain.entities.utils.PositiveOrZeroReal
-import domain.entities.utils.Types.{PositiveOrZeroReal, SpeedInKmH, VolumeInCm, WeightInKg}
+import domain.entities.utils.Types.*
+import domain.entities.utils.LongNatural
 import domain.entities.{Delivery, DeliveryCategory}
 import zio.prelude.newtypes.Natural
 
@@ -11,8 +11,8 @@ import java.util.UUID
 final case class Carrier(
     id: UUID,
     deliveryCategory: DeliveryCategory,
-    averageSpeed: SpeedInKmH,
-    costPerRide: PositiveOrZeroReal
+    averageSpeed: SpeedInMetersPerSecond,
+    costPerRide: CostInMillis
 ) {
   def isCheaperThanOther(otherCarrier: Carrier): Boolean = {
     costPerRide <= otherCarrier.costPerRide
@@ -58,9 +58,9 @@ final case class Carrier(
   }
 
   private def getTransportPossiblityScore(
-      maxPackageWeight: WeightInKg,
-      totalVolume: VolumeInCm,
-      totalWeight: WeightInKg
+      maxPackageWeight: WeightInGram,
+      totalVolume: VolumeInMillim3,
+      totalWeight: WeightInGram
   ): Natural = {
     val isMaxPackageWeightCompatible = maxPackageWeight <= this.deliveryCategory.maxPackageWeight
     val isMaxVolumeCompatible = totalVolume <= this.deliveryCategory.totalVolume
@@ -105,8 +105,8 @@ final case class Carrier(
   }
 
   private def isDeliveryPossibleInTime(delivery: Delivery): Boolean = {
-    val predictedDeliveryTimeHours = PositiveOrZeroReal.divides(delivery.travelDistance, this.averageSpeed)
-    val predictedDeliveryDuration = Duration.ofMinutes((predictedDeliveryTimeHours * 60).toLong)
+    val predictedDeliveryTimeSeconds = LongNatural.divides(delivery.travelDistance, this.averageSpeed)
+    val predictedDeliveryDuration = Duration.ofSeconds(predictedDeliveryTimeSeconds)
 
     predictedDeliveryDuration.minus(this.deliveryCategory.deliveryTimeRange.duration).isNegative
   }

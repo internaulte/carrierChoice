@@ -2,7 +2,7 @@ package adapters.repositories.interfaces
 
 import adapters.repositories.CarrierRepositoryImpl
 import domain.entities.{Carrier, DeliveryCategory}
-import domain.entities.utils.Types.{PositiveOrZeroReal, SpeedInKmH}
+import domain.entities.utils.Types.SpeedInMetersPerSecond
 import java.util.UUID
 import scala.concurrent.Future
 

@@ -2,14 +2,15 @@ package domain.entities.utils
 
 object Types {
   type LongNatural = LongNatural.Type
-  type PositiveOrZeroReal = PositiveOrZeroReal.Type
-  type SpeedInKmH = PositiveOrZeroReal
-  type WeightInKg = PositiveOrZeroReal
-  type VolumeInCm = PositiveOrZeroReal
+  type SpeedInMetersPerSecond = LongNatural
+  type WeightInGram = LongNatural
+  type VolumeInMillim3 = LongNatural
+  type CostInMillis = LongNatural
 
-  type DistanceInKm = PositiveOrZeroReal
+  type DistanceInMeters = LongNatural
   type DurationInSeconds = LongNatural
 
   type Latitude = Double
+  type LatitudeInRadiants = Double
   type Longitude = Double
 }
