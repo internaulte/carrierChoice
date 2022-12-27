@@ -1,6 +1,5 @@
-package domain.entities.utils
+package domain.entities.utils.types
 
-import domain.entities.utils.Types.LongNatural
 import zio.prelude.{Assertion, Subtype}
 
 object LongNatural extends Subtype[Long] {
@@ -13,17 +12,6 @@ object LongNatural extends Subtype[Long] {
 
   val zero: LongNatural =
     LongNatural(0)
-
-  def successor(n: LongNatural): LongNatural =
-    wrap(n + 1)
-
-  def getAbsoluteValue(number: Long): LongNatural = {
-    if (number > 0) {
-      wrap(number)
-    } else {
-      wrap(-number)
-    }
-  }
 
   def times(x: LongNatural, y: LongNatural): LongNatural = {
     val product = x * y

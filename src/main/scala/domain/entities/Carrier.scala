@@ -1,7 +1,6 @@
 package domain.entities
 
-import domain.entities.utils.Types.*
-import domain.entities.utils.LongNatural
+import domain.entities.utils.types.*
 import domain.entities.{Delivery, DeliveryCategory}
 import zio.prelude.newtypes.Natural
 
@@ -105,7 +104,11 @@ final case class Carrier(
   }
 
   private def isDeliveryPossibleInTime(delivery: Delivery): Boolean = {
-    val predictedDeliveryTimeSeconds = LongNatural.divides(delivery.travelDistance, this.averageSpeed)
+    val predictedDeliveryTimeSeconds: DurationInSeconds = DurationInSeconds.fromDistanceAndSpeed(
+      travelDistance = delivery.travelDistance,
+      averageSpeed = this.averageSpeed
+    )
+
     val predictedDeliveryDuration = Duration.ofSeconds(predictedDeliveryTimeSeconds)
 
     predictedDeliveryDuration.minus(this.deliveryCategory.deliveryTimeRange.duration).isNegative

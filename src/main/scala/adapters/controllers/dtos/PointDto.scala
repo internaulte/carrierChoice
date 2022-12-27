@@ -1,7 +1,7 @@
 package adapters.controllers.dtos
 
 import domain.entities.utils.Point
-import domain.entities.utils.Types.{Latitude, Longitude}
+import domain.entities.utils.types.{Latitude, Longitude}
 
 protected[controllers] final case class PointDto(latitude: Latitude, longitude: Longitude) {
   def toPoint: Point = {

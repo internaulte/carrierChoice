@@ -1,7 +1,7 @@
 package adapters.controllers
 
 import adapters.controllers.dtos.*
-import domain.entities.utils.Types.{CostInMillis, SpeedInMetersPerSecond}
+import domain.entities.utils.types.*
 import domain.usecases.interfaces.CarrierUseCases
 
 import java.util.UUID

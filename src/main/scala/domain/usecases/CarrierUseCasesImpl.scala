@@ -1,7 +1,7 @@
 package domain.usecases
 
 import adapters.repositories.interfaces.CarrierRepository
-import domain.entities.utils.Types.{CostInMillis, SpeedInMetersPerSecond}
+import domain.entities.utils.types.{CostInMillis, SpeedInMetersPerSecond}
 import domain.entities.*
 import domain.usecases.interfaces.CarrierUseCases
 import zio.prelude.NonEmptySet

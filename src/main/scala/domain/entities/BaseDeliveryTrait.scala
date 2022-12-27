@@ -1,7 +1,8 @@
 package domain.entities
 
-import domain.entities.utils.Types.{DistanceInMeters, VolumeInMillim3, WeightInGram}
-import domain.entities.utils.{LongNatural, Point}
+import domain.entities.utils.types.{DistanceInMeters, VolumeInMillim3, WeightInGram}
+import domain.entities.utils.Point
+import domain.entities.utils.types.LongNatural
 import zio.prelude.NonEmptySet
 
 import java.util.UUID

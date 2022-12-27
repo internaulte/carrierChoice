@@ -1,7 +1,7 @@
 package adapters.controllers.dtos
 
 import domain.entities.{Carrier, DeliveryCategory}
-import domain.entities.utils.Types.{CostInMillis, SpeedInMetersPerSecond}
+import domain.entities.utils.types.{CostInMillis, SpeedInMetersPerSecond}
 
 import java.util.UUID
 
