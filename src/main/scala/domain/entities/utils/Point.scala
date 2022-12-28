@@ -6,8 +6,8 @@ import zio.prelude.ZValidation
 import scala.math.*
 
 final case class Point(latitude: Latitude, longitude: Longitude) {
-  lazy val latitudeAsRadians: LatitudeInRadiants = LatitudeInRadiants.fromLatitude(latitude)
-  lazy val longitudeAsRadians: LongitudeInRadiants = LongitudeInRadiants.fromLongitude(longitude)
+  private lazy val latitudeAsRadians: LatitudeInRadiants = LatitudeInRadiants.fromLatitude(latitude)
+  private lazy val longitudeAsRadians: LongitudeInRadiants = LongitudeInRadiants.fromLongitude(longitude)
 
   def distanceInMetersTo(otherPoint: Point): DistanceInMeters = {
     val (dLat, dLon) = (otherPoint.latitudeAsRadians, otherPoint.longitudeAsRadians)

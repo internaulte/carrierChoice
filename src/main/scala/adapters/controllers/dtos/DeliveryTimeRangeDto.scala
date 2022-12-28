@@ -15,6 +15,9 @@ protected[controllers] final case class DeliveryTimeRangeDto(
 
 protected[controllers] object DeliveryTimeRangeDto {
   def apply(deliveryTimeRange: DeliveryTimeRange): DeliveryTimeRangeDto = {
-    DeliveryTimeRangeDto(startInterval = deliveryTimeRange.startInterval, endInterval = deliveryTimeRange.endInterval)
+    DeliveryTimeRangeDto(
+      startInterval = deliveryTimeRange.correctStartInterval,
+      endInterval = deliveryTimeRange.correctEndInterval
+    )
   }
 }
