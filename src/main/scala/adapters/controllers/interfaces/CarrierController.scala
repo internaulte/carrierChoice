@@ -1,18 +1,20 @@
-package adapters.controllers
+package adapters.controllers.interfaces
 
-import adapters.controllers.dtos.*
-import domain.entities.utils.types.*
-import domain.usecases.interfaces.CarrierUseCases
-
-import java.util.UUID
-import scala.concurrent.{Await, Future}
-import scala.concurrent.duration.Duration
+import adapters.controllers.CarrierControllerImpl
+import adapters.controllers.dtos.{CarrierDto, CarrierWithCompatibilityDto, DeliveryCategoryDto, DeliveryDto}
 import cask.model.Response
 import domain.entities.utils.types.CostInMillis.CostInMillis
 import domain.entities.utils.types.SpeedInMetersPerSecond.SpeedInMetersPerSecond
+import domain.entities.utils.types.{CostInMillis, SpeedInMetersPerSecond}
+import domain.usecases.interfaces.CarrierUseCases
 
-object CarrierController extends cask.MainRoutes {
-  private val carrierUseCases = CarrierUseCases.instance
+import java.util.UUID
+import scala.concurrent.duration.Duration
+import scala.concurrent.{Await, Future}
+import scala.concurrent.ExecutionContext.Implicits.global
+
+trait CarrierController extends cask.Routes {
+  protected val carrierUseCases: CarrierUseCases
 
   @cask.post("/carrier")
   def createCarrier(
@@ -69,7 +71,7 @@ object CarrierController extends cask.MainRoutes {
       case None => Response("", statusCode = 204)
   }
 
-  // initialize() TODO : add readers
+  initialize()
 
   private def canUserCreate: Future[Boolean] = {
     Future.successful(true)
@@ -80,4 +82,8 @@ object CarrierController extends cask.MainRoutes {
   }
 
   private def getUUID: UUID = UUID.randomUUID()
+}
+
+object CarrierController {
+  lazy val instance: CarrierController = new CarrierControllerImpl(carrierUseCases = CarrierUseCases.instance)
 }
