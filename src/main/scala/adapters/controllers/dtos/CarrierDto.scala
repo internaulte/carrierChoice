@@ -1,5 +1,7 @@
 package adapters.controllers.dtos
 
+import domain.entities.utils.types.CostInMillis.CostInMillis
+import domain.entities.utils.types.SpeedInMetersPerSecond.SpeedInMetersPerSecond
 import domain.entities.{Carrier, DeliveryCategory}
 import domain.entities.utils.types.{CostInMillis, SpeedInMetersPerSecond}
 

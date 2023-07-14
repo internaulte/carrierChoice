@@ -1,5 +1,7 @@
 package adapters.controllers.dtos
 
+import domain.entities.utils.types.VolumeInMillim3.VolumeInMillim3
+import domain.entities.utils.types.WeightInGram.WeightInGram
 import domain.entities.{Area, DeliveryCategory, DeliveryTimeRange}
 import domain.entities.utils.types.{VolumeInMillim3, WeightInGram}
 

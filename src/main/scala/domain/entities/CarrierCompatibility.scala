@@ -1,13 +1,14 @@
 package domain.entities
 
-import zio.prelude.newtypes.Natural
+import domain.entities.utils.types.Natural.Natural
+import domain.entities.utils.types.Natural
 
 sealed trait CarrierCompatibility {
   val score: Natural
 }
 
 case object FullyCompatible extends CarrierCompatibility {
-  override final val score: Natural = Natural(4)
+  override final val score: Natural = Natural.unsafe(4)
 }
 
 sealed case class PartiallyCompatible(override final val score: Natural) extends CarrierCompatibility

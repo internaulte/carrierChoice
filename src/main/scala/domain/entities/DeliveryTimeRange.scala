@@ -1,16 +1,17 @@
 package domain.entities
 
-import java.time.{Duration, LocalTime}
+import java.time.{Duration, LocalDateTime}
 
 final case class DeliveryTimeRange(
-    private val startInterval: LocalTime,
-    private val endInterval: LocalTime
+    private val startInterval: LocalDateTime,
+    private val endInterval: LocalDateTime
 ) {
-  val (correctStartInterval: LocalTime, correctEndInterval: LocalTime) = if (startInterval.isAfter(endInterval)) {
-    (endInterval, startInterval)
-  } else {
-    (startInterval, endInterval)
-  }
+  val (correctStartInterval: LocalDateTime, correctEndInterval: LocalDateTime) =
+    if (startInterval.isAfter(endInterval)) {
+      (endInterval, startInterval)
+    } else {
+      (startInterval, endInterval)
+    }
   lazy val duration: Duration = Duration.between(correctStartInterval, correctEndInterval)
 
   def containsTotally(otherRange: DeliveryTimeRange): Boolean = {

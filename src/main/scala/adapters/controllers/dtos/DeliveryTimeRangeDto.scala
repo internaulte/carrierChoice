@@ -2,11 +2,11 @@ package adapters.controllers.dtos
 
 import domain.entities.DeliveryTimeRange
 
-import java.time.LocalTime
+import java.time.LocalDateTime
 
 protected[controllers] final case class DeliveryTimeRangeDto(
-    startInterval: LocalTime,
-    endInterval: LocalTime
+    startInterval: LocalDateTime,
+    endInterval: LocalDateTime
 ) {
   def toDeliveryTimeRange: DeliveryTimeRange = {
     DeliveryTimeRange(startInterval, endInterval)

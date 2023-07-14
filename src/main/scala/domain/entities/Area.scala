@@ -1,7 +1,7 @@
 package domain.entities
 
 import domain.entities.utils.Point
-import domain.entities.utils.types.DistanceInMeters
+import domain.entities.utils.types.DistanceInMeters.DistanceInMeters
 
 final case class Area(center: Point, radius: DistanceInMeters) {
   def isPointInArea(point: Point): Boolean = {
