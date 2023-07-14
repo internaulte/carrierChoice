@@ -1,9 +1,13 @@
 package domain.entities
 
-import domain.entities.utils.Types.*
-import domain.entities.utils.LongNatural
+import domain.entities.utils.types.CostInMillis.CostInMillis
+import domain.entities.utils.types.{DurationInSeconds, Natural}
+import domain.entities.utils.types.DurationInSeconds.DurationInSeconds
+import domain.entities.utils.types.Natural.Natural
+import domain.entities.utils.types.SpeedInMetersPerSecond.SpeedInMetersPerSecond
+import domain.entities.utils.types.VolumeInMillim3.VolumeInMillim3
+import domain.entities.utils.types.WeightInGram.WeightInGram
 import domain.entities.{Delivery, DeliveryCategory}
-import zio.prelude.newtypes.Natural
 
 import java.time.Duration
 import java.util.UUID
@@ -31,19 +35,19 @@ final case class Carrier(
 
     val deliveryInTimeScore = if (isDeliveryPossibleInTime(delivery)) Natural.one else Natural.zero
 
-    val finalScore = Natural.plus(transportAndSchedulingAndDeliveryZonePossiblityScore, deliveryInTimeScore)
+    val finalScore = transportAndSchedulingAndDeliveryZonePossiblityScore.plus(deliveryInTimeScore)
 
     CarrierCompatibility(finalScore)
   }
 
   private def getTransportAndSchedulingDeliveryZonePossiblityScore(deliveryTraitObject: BaseDeliveryTrait): Natural = {
-    val transportAndSchedulingPossiblityScore = getTransportAndSchedulingPossiblityScore(deliveryCategory)
+    val transportAndSchedulingPossiblityScore = getTransportAndSchedulingPossiblityScore(deliveryTraitObject)
     val deliveryZonePossibilityScore = deliveryTraitObject match {
-      case delivery: Delivery => getDeliveryZonePossibleScore(delivery)
+      case delivery: Delivery => getDeliveryPossibleScore(delivery)
       case deliveryCategory: DeliveryCategory => getDeliveryZonePossibleScore(deliveryCategory)
     }
 
-    Natural.plus(transportAndSchedulingPossiblityScore, deliveryZonePossibilityScore)
+    transportAndSchedulingPossiblityScore.plus(deliveryZonePossibilityScore)
   }
 
   private def getTransportAndSchedulingPossiblityScore(deliveryTraitObject: BaseDeliveryTrait): Natural = {
@@ -52,12 +56,12 @@ final case class Carrier(
       totalVolume = deliveryTraitObject.totalVolume,
       totalWeight = deliveryTraitObject.totalWeight
     )
-    val timePossibilityScore = getSchedulingPossibilityScore(deliveryTimeRange = deliveryCategory.deliveryTimeRange)
+    val timePossibilityScore = getSchedulingPossibilityScore(deliveryTimeRange = deliveryTraitObject.deliveryTimeRange)
 
-    Natural.plus(transportPossibilityScore, timePossibilityScore)
+    transportPossibilityScore.plus(timePossibilityScore)
   }
 
-  private def getTransportPossiblityScore(
+  private[entities] def getTransportPossiblityScore(
       maxPackageWeight: WeightInGram,
       totalVolume: VolumeInMillim3,
       totalWeight: WeightInGram
@@ -73,7 +77,7 @@ final case class Carrier(
     }
   }
 
-  private def getSchedulingPossibilityScore(deliveryTimeRange: DeliveryTimeRange): Natural = {
+  private[entities] def getSchedulingPossibilityScore(deliveryTimeRange: DeliveryTimeRange): Natural = {
     val isSchedulingPossible = this.deliveryCategory.deliveryTimeRange.containsTotally(deliveryTimeRange)
 
     if (isSchedulingPossible) {
@@ -83,7 +87,7 @@ final case class Carrier(
     }
   }
 
-  private def getDeliveryZonePossibleScore(delivery: Delivery): Natural = {
+  private[entities] def getDeliveryPossibleScore(delivery: Delivery): Natural = {
     val isDeliveryZonePossible = this.deliveryCategory.deliveryArea.isPointInArea(delivery.withdrawal) &&
       this.deliveryCategory.deliveryArea.isPointInArea(delivery.destination)
 
@@ -94,7 +98,7 @@ final case class Carrier(
     }
   }
 
-  private def getDeliveryZonePossibleScore(deliveryCategory: DeliveryCategory): Natural = {
+  private[entities] def getDeliveryZonePossibleScore(deliveryCategory: DeliveryCategory): Natural = {
     val isDeliveryZonePossible = this.deliveryCategory.deliveryArea.isAreaContainsOther(deliveryCategory.deliveryArea)
 
     if (isDeliveryZonePossible) {
@@ -104,10 +108,14 @@ final case class Carrier(
     }
   }
 
-  private def isDeliveryPossibleInTime(delivery: Delivery): Boolean = {
-    val predictedDeliveryTimeSeconds = LongNatural.divides(delivery.travelDistance, this.averageSpeed)
+  private[entities] def isDeliveryPossibleInTime(delivery: Delivery): Boolean = {
+    val predictedDeliveryTimeSeconds: DurationInSeconds = DurationInSeconds.fromDistanceAndSpeed(
+      travelDistance = delivery.travelDistance,
+      averageSpeed = this.averageSpeed
+    )
+
     val predictedDeliveryDuration = Duration.ofSeconds(predictedDeliveryTimeSeconds)
 
-    predictedDeliveryDuration.minus(this.deliveryCategory.deliveryTimeRange.duration).isNegative
+    !predictedDeliveryDuration.minus(this.deliveryCategory.deliveryTimeRange.duration).isPositive
   }
 }

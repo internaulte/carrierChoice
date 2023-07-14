@@ -2,12 +2,12 @@ package domain.entities
 
 import core.UnitTestSpec
 import domain.entities.utils.Point
-import zio.prelude.newtypes.Natural
+import domain.entities.utils.types.Natural
 
 final class CarrierCompatibilityTest extends UnitTestSpec {
   describe("apply") {
     it("should return FullyCompatible if score max") {
-      val scoreMax = Natural(4)
+      val scoreMax = Natural.unsafe(4)
 
       assert(CarrierCompatibility(scoreMax) match {
         case FullyCompatible => true
@@ -16,7 +16,7 @@ final class CarrierCompatibilityTest extends UnitTestSpec {
       })
     }
     it("should return NotCompatible if score zero") {
-      val scoreMin = Natural(0)
+      val scoreMin = Natural.zero
 
       assert(CarrierCompatibility(scoreMin) match {
         case FullyCompatible => false
@@ -25,7 +25,7 @@ final class CarrierCompatibilityTest extends UnitTestSpec {
       })
     }
     it("should return PartiallyCompatible if score between 0 and max") {
-      val scoreMedium = Natural(3)
+      val scoreMedium = Natural.unsafe(3)
 
       assert(CarrierCompatibility(scoreMedium) match {
         case FullyCompatible => false

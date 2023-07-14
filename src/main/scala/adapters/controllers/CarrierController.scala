@@ -1,12 +1,15 @@
 package adapters.controllers
 
 import adapters.controllers.dtos.*
-import domain.entities.utils.Types.{CostInMillis, SpeedInMetersPerSecond}
+import domain.entities.utils.types.*
 import domain.usecases.interfaces.CarrierUseCases
 
 import java.util.UUID
 import scala.concurrent.{Await, Future}
 import scala.concurrent.duration.Duration
+import cask.model.Response
+import domain.entities.utils.types.CostInMillis.CostInMillis
+import domain.entities.utils.types.SpeedInMetersPerSecond.SpeedInMetersPerSecond
 
 object CarrierController extends cask.MainRoutes {
   private val carrierUseCases = CarrierUseCases.instance
@@ -16,22 +19,24 @@ object CarrierController extends cask.MainRoutes {
       deliveryCategory: DeliveryCategoryDto,
       averageSpeed: SpeedInMetersPerSecond,
       costPerRide: CostInMillis
-  ): Unit = {
+  ): Response[CarrierDto] = {
     val result = for {
       _ <- canUserCreate
       newCarrier <- carrierUseCases.createCarrier(
         deliveryCategory.toDeliveryCategory,
         averageSpeed,
         costPerRide,
-        carrierId = getUUID()
+        carrierId = getUUID
       )
     } yield CarrierDto(newCarrier)
 
-    Await.result(result, Duration.Inf)
+    Response(Await.result(result, Duration.Inf), statusCode = 201)
   }
 
   @cask.post("/carrier/compatibilities")
-  def getAllCarriersCompatibilitiesOrderedByScoreAndPrice(deliveryCategoryDto: DeliveryCategoryDto): Unit = {
+  def getAllCarriersCompatibilitiesOrderedByScoreAndPrice(
+      deliveryCategoryDto: DeliveryCategoryDto
+  ): Response[Seq[CarrierWithCompatibilityDto]] = {
     val result = for {
       _ <- canUserRead
       carriersWithCompatibility <- carrierUseCases.getAllCarriersCompatibilities(
@@ -45,11 +50,11 @@ object CarrierController extends cask.MainRoutes {
       sortedCarriersWithCompatibility.map(CarrierWithCompatibilityDto(_))
     }
 
-    Await.result(result, Duration.Inf)
+    Response(Await.result(result, Duration.Inf))
   }
 
   @cask.post("/carrier/delivery")
-  def getBestCarrierForDelivery(deliveryDto: DeliveryDto): Unit = {
+  def getBestCarrierForDelivery(deliveryDto: DeliveryDto): Response[Object] = {
     val result = for {
       _ <- canUserRead
       maybeCarrier <- carrierUseCases.getBestCarrierForDelivery(
@@ -59,10 +64,12 @@ object CarrierController extends cask.MainRoutes {
       maybeCarrier.map(CarrierDto(_))
     }
 
-    Await.result(result, Duration.Inf)
+    Await.result(result, Duration.Inf) match
+      case Some(bestCarrier) => Response(data = bestCarrier)
+      case None => Response("", statusCode = 204)
   }
 
-  //initialize() TODO : add readers
+  // initialize() TODO : add readers
 
   private def canUserCreate: Future[Boolean] = {
     Future.successful(true)
@@ -72,5 +79,5 @@ object CarrierController extends cask.MainRoutes {
     Future.successful(true)
   }
 
-  private def getUUID(): UUID = UUID.randomUUID()
+  private def getUUID: UUID = UUID.randomUUID()
 }

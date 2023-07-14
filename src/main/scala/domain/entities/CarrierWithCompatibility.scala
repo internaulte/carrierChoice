@@ -1,9 +1,9 @@
 package domain.entities
 
-import zio.prelude.newtypes.Natural
+import domain.entities.utils.types.Natural.Natural
 
 final case class CarrierWithCompatibility(carrier: Carrier, carrierCompatibility: CarrierCompatibility) {
-  def carrierScore: Natural = this.carrierCompatibility.score
+  def carrierScore: Natural = carrierCompatibility.score
 }
 
 object CarrierWithCompatibility {

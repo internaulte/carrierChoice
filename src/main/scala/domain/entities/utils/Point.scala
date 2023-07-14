@@ -1,15 +1,17 @@
 package domain.entities.utils
 
-import domain.entities.utils.Types.{DistanceInMeters, Latitude, Longitude, LatitudeInRadiants}
-import domain.entities.utils.LongNatural
-
-import zio.prelude.ZValidation
+import domain.entities.utils.types.DistanceInMeters.DistanceInMeters
+import domain.entities.utils.types.Latitude.Latitude
+import domain.entities.utils.types.LatitudeInRadiants.LatitudeInRadiants
+import domain.entities.utils.types.LongitudeInRadiants.LongitudeInRadiants
+import domain.entities.utils.types.Longitude.Longitude
+import domain.entities.utils.types.{DistanceInMeters, Latitude, LatitudeInRadiants, LongNatural, Longitude, LongitudeInRadiants}
 
 import scala.math.*
 
 final case class Point(latitude: Latitude, longitude: Longitude) {
-  lazy val latitudeAsRadians: LatitudeInRadiants = math.toRadians(latitude)
-  lazy val longitudeAsRadians: LatitudeInRadiants = math.toRadians(longitude)
+  private lazy val latitudeAsRadians: LatitudeInRadiants = latitude.toLatitudeInRadiants
+  private lazy val longitudeAsRadians: LongitudeInRadiants = longitude.toLongitudeInRadiants
 
   def distanceInMetersTo(otherPoint: Point): DistanceInMeters = {
     val (dLat, dLon) = (otherPoint.latitudeAsRadians, otherPoint.longitudeAsRadians)
@@ -21,7 +23,6 @@ final case class Point(latitude: Latitude, longitude: Longitude) {
     val earthRadiusMeters = earthRadiusMiles / 0.00062137
     val distanceInMeters = earthRadiusMeters * greatCircleDistance
 
-    LongNatural.getAbsoluteValue(distanceInMeters.toLong)
+    DistanceInMeters.getAbsoluteValue(distanceInMeters.toInt)
   }
-
 }

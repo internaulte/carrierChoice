@@ -1,17 +1,17 @@
 package domain.usecases
 
 import adapters.repositories.interfaces.CarrierRepository
-import domain.entities.utils.Types.{CostInMillis, SpeedInMetersPerSecond}
+import domain.entities.utils.types.SpeedInMetersPerSecond
 import domain.entities.*
+import domain.entities.utils.types.CostInMillis.CostInMillis
+import domain.entities.utils.types.SpeedInMetersPerSecond.SpeedInMetersPerSecond
 import domain.usecases.interfaces.CarrierUseCases
-import zio.prelude.NonEmptySet
-import zio.prelude.newtypes.Natural
 
 import java.util.UUID
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-protected class CarrierUseCasesImpl(private val carrierRepository: CarrierRepository) extends CarrierUseCases {
+protected class CarrierUseCasesImpl(carrierRepository: CarrierRepository) extends CarrierUseCases {
   override def createCarrier(
       deliveryCategory: DeliveryCategory,
       averageSpeed: SpeedInMetersPerSecond,
@@ -44,14 +44,16 @@ protected class CarrierUseCasesImpl(private val carrierRepository: CarrierReposi
     for {
       carriers <- carrierRepository.getAllCarriers
     } yield {
-      val carriersWithCompatibility =
-        carriers.map(carrier => CarrierWithCompatibility(carrier, carrier.getCompatibilityForDelivery(delivery)))
-
-      carriersWithCompatibility.headOption match {
-        case Some(carrierWithCompatibility) =>
-          val bestCarrier = carriersWithCompatibility.tail.foldLeft(carrierWithCompatibility) {
-            case (bestCarrierCompatibility, newCarrierWithCompatibility) =>
-              selectBestCarrierWithCompatibility(bestCarrierCompatibility, newCarrierWithCompatibility)
+      carriers.headOption match {
+        case Some(carrier) =>
+          val carrierAndCompatibility = CarrierWithCompatibility(carrier, carrier.getCompatibilityForDelivery(delivery))
+          val bestCarrier = carriers.tail.foldLeft(carrierAndCompatibility) {
+            case (bestCarrierWithCompatibility, newCarrier) =>
+              val newCarrierWithCompatibility = CarrierWithCompatibility(
+                carrier = newCarrier,
+                carrierCompatibility = newCarrier.getCompatibilityForDelivery(delivery)
+              )
+              selectBestCarrierWithCompatibility(bestCarrierWithCompatibility, newCarrierWithCompatibility)
           }
 
           Some(bestCarrier.carrier)
@@ -60,7 +62,7 @@ protected class CarrierUseCasesImpl(private val carrierRepository: CarrierReposi
     }
   }
 
-  private def selectBestCarrierWithCompatibility(
+  private[usecases] def selectBestCarrierWithCompatibility(
       carrierWithCompatibility: CarrierWithCompatibility,
       otherCarrierWithCompatibility: CarrierWithCompatibility
   ): CarrierWithCompatibility = {
