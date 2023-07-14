@@ -2,7 +2,7 @@ package adapters.controllers.dtos
 
 import domain.entities.{Delivery, DeliveryTimeRange, Package}
 import domain.entities.utils.Point
-import zio.prelude.NonEmptySet
+import domain.entities.utils.types.NonEmptyList.NonEmptyList
 
 import java.util.UUID
 
@@ -11,7 +11,7 @@ protected[controllers] final case class DeliveryDto(
     withdrawal: PointDto,
     destination: PointDto,
     deliveryTimeRange: DeliveryTimeRangeDto,
-    packages: NonEmptySet[PackageDto]
+    packages: NonEmptyList[PackageDto]
 ) {
   def toDelivery: Delivery = {
     Delivery(
@@ -19,7 +19,7 @@ protected[controllers] final case class DeliveryDto(
       withdrawal = withdrawal.toPoint,
       destination = destination.toPoint,
       deliveryTimeRange = deliveryTimeRange.toDeliveryTimeRange,
-      packages = packages.map(_.toPackage)
+      packages = packages.mapExt(_.toPackage)
     )
   }
 }

@@ -1,8 +1,9 @@
 package domain.usecases.interfaces
 
 import adapters.repositories.interfaces.CarrierRepository
-import domain.entities.utils.types.{CostInMillis, SpeedInMetersPerSecond}
 import domain.entities.*
+import domain.entities.utils.types.CostInMillis.CostInMillis
+import domain.entities.utils.types.SpeedInMetersPerSecond.SpeedInMetersPerSecond
 import domain.usecases.CarrierUseCasesImpl
 
 import java.util.UUID
@@ -13,7 +14,7 @@ trait CarrierUseCases {
       deliveryCategory: DeliveryCategory,
       averageSpeed: SpeedInMetersPerSecond,
       costPerRide: CostInMillis,
-      carrierId: UUID = UUID.randomUUID()
+      carrierId: UUID
   ): Future[Carrier]
 
   def getAllCarriersCompatibilities(

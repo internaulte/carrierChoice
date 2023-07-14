@@ -1,20 +1,17 @@
 package domain.entities.utils.types
 
-import zio.prelude.newtypes.Natural
-import zio.prelude.{Assertion, Subtype}
-
 import scala.quoted.*
 
-object NonZeroNaturalInt extends Subtype[Int] {
+object NonZeroNaturalInt {
+  opaque type NonZeroNaturalInt <: Int = Int
 
-  override inline def assertion = Assertion.greaterThanOrEqualTo(1)
+  def apply(value: Int): Option[NonZeroNaturalInt] =
+    if (value >= 1) Some(value)
+    else None
 
-  val one: NonZeroNaturalInt = NonZeroNaturalInt(1)
+  def unsafe(value: Int): NonZeroNaturalInt = value
 
-  val max: NonZeroNaturalInt = NonZeroNaturalInt(Int.MaxValue)
+  val one: NonZeroNaturalInt = NonZeroNaturalInt.unsafe(1)
 
-  def divides(numerator: NonZeroNaturalInt, denominator: NonZeroNaturalInt): NonZeroNaturalInt = {
-    val division = numerator / denominator
-    wrap(division)
-  }
+  val max: NonZeroNaturalInt = NonZeroNaturalInt.unsafe(Int.MaxValue)
 }

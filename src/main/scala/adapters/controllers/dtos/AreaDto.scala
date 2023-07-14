@@ -2,6 +2,7 @@ package adapters.controllers.dtos
 
 import domain.entities.Area
 import domain.entities.utils.types.DistanceInMeters
+import domain.entities.utils.types.DistanceInMeters.DistanceInMeters
 
 protected[controllers] final case class AreaDto(center: PointDto, radius: DistanceInMeters) {
   def toArea: Area = {

@@ -1,39 +1,31 @@
 package domain.entities.utils.types
 
-import zio.prelude.{Assertion, Subtype}
+object LongNatural {
+  opaque type LongNatural <: Long = Long
 
-object LongNatural extends Subtype[Long] {
+  val one: LongNatural = unsafe(1)
 
-  override inline def assertion: Assertion[Long] =
-    Assertion.greaterThanOrEqualTo(0L)
+  val zero: LongNatural = unsafe(0)
 
-  val one: LongNatural =
-    LongNatural(1)
+  def apply(value: Long): Option[LongNatural] =
+    if (value >= 0) Some(value)
+    else None
 
-  val zero: LongNatural =
-    LongNatural(0)
+  def unsafe(value: Long): LongNatural = value
 
-  def times(x: LongNatural, y: LongNatural): LongNatural = {
-    val product = x * y
-    if (x == 0 || product / x != y) LongNatural(Long.MaxValue) else wrap(product)
-  }
+  extension (longNatural: LongNatural) {
+    def times(x: LongNatural): LongNatural = {
+      val product = x * longNatural
+      unsafe(product)
+    }
 
-  def divides(x: LongNatural, y: LongNatural): LongNatural = {
-    val division = x / y
-    if (x == 0 || division * y != x) LongNatural(Long.MaxValue) else wrap(division)
-  }
+    def plus(x: LongNatural): LongNatural = {
+      val sum = x + longNatural
+      unsafe(sum)
+    }
 
-  def plus(x: LongNatural, y: LongNatural): LongNatural = {
-    val sum = x + y
-    if (sum < 0) LongNatural(Long.MaxValue) else wrap(sum)
-  }
-
-  def minus(x: LongNatural, y: LongNatural): LongNatural = {
-    val difference = x - y
-    if (difference < 0) zero else wrap(difference)
-  }
-
-  def max(x: LongNatural, y: LongNatural): LongNatural = {
-    if (x < y) y else x
+    def maximum(x: LongNatural): LongNatural = {
+      if (x < longNatural) longNatural else x
+    }
   }
 }
