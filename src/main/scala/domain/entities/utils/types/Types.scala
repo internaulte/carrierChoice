@@ -11,6 +11,7 @@ import domain.entities.utils.types.LongitudeInRadiants.LongitudeInRadiants
 import domain.entities.utils.types.Natural.Natural
 import domain.entities.utils.types.NonZeroNaturalInt.NonZeroNaturalInt
 import domain.entities.utils.types.SpeedInMetersPerSecond.SpeedInMetersPerSecond
+import domain.entities.utils.types.VolumeInMillim3.VolumeInMillim3
 import domain.entities.utils.types.WeightInGram.WeightInGram
 import domain.entities.utils.types.{LongNatural, NonZeroNaturalInt}
 
@@ -28,6 +29,8 @@ object WeightInGram {
   val zero: WeightInGram = WeightInGram(LongNatural.zero)
 
   def apply(longNatural: LongNatural): WeightInGram = longNatural
+
+  def apply(long: Long): Option[WeightInGram] = LongNatural(long).map(WeightInGram(_))
 
   extension (weightInGram: WeightInGram) {
     def addition(x: WeightInGram): WeightInGram = {
@@ -48,6 +51,8 @@ object VolumeInMillim3 {
   val zero: VolumeInMillim3 = VolumeInMillim3(LongNatural.zero)
 
   def apply(longNatural: LongNatural): VolumeInMillim3 = longNatural
+
+  def apply(long: Long): Option[VolumeInMillim3] = LongNatural(long).map(VolumeInMillim3(_))
 
   extension (volumeInMillim3: VolumeInMillim3) {
     def addition(x: VolumeInMillim3): VolumeInMillim3 = {

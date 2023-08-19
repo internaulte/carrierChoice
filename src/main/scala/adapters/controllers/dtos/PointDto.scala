@@ -1,13 +1,14 @@
 package adapters.controllers.dtos
 
 import domain.entities.utils.Point
-import domain.entities.utils.types.Latitude.Latitude
-import domain.entities.utils.types.Longitude.Longitude
 import domain.entities.utils.types.{Latitude, Longitude}
 
-protected[controllers] final case class PointDto(latitude: Latitude, longitude: Longitude) {
-  def toPoint: Point = {
-    Point(latitude = latitude, longitude = longitude)
+protected[controllers] final case class PointDto(latitude: Double, longitude: Double) {
+  def toPoint: Option[Point] = {
+    for {
+      finalLatitude <- Latitude(latitude)
+      finalLongitude <- Longitude(longitude)
+    } yield Point(latitude = finalLatitude, longitude = finalLongitude)
   }
 }
 

@@ -59,9 +59,7 @@ trait CarrierController extends cask.Routes {
   def getBestCarrierForDelivery(deliveryDto: DeliveryDto): Response[Object] = {
     val result = for {
       _ <- canUserRead
-      maybeCarrier <- carrierUseCases.getBestCarrierForDelivery(
-        delivery = deliveryDto.toDelivery
-      )
+      maybeCarrier <- carrierUseCases.getBestCarrierForDelivery(delivery = deliveryDto.toDelivery)
     } yield {
       maybeCarrier.map(CarrierDto(_))
     }
