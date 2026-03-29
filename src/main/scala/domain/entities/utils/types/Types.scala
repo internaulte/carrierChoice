@@ -142,7 +142,7 @@ object Longitude {
   opaque type Longitude <: Double = Double
 
   def apply(value: Double): Option[Longitude] =
-    if (value >= -math.Pi && value <= math.Pi) Some(value)
+    if (value >= -180.0 && value <= 180.0) Some(value)
     else None
 
   def unsafe(value: Double): Longitude = {
@@ -158,7 +158,7 @@ object LongitudeInRadiants {
   opaque type LongitudeInRadiants <: Double = Double
 
   def apply(value: Double): Option[LongitudeInRadiants] =
-    if (value >= -math.Pi / 2 && value <= math.Pi / 2) Some(value)
+    if (value >= -math.Pi && value <= math.Pi) Some(value)
     else None
 
   def unsafe(value: Double): LongitudeInRadiants = {

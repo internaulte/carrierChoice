@@ -11,6 +11,8 @@ trait CarrierRepository {
   def createCarrier(carrier: Carrier): Future[Unit]
 
   def getAllCarriers: Future[Set[Carrier]]
+
+  def deleteAll(): Future[Unit]
 }
 
 object CarrierRepository {

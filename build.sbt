@@ -8,7 +8,8 @@ lazy val root = (project in file("."))
     libraryDependencies ++= Seq(
       "com.lihaoyi"       %% "cask"        % "0.11.3",
       "org.scalatest"     %% "scalatest"   % "3.2.20"   % Test,
-      "org.scalatestplus" %% "mockito-5-12" % "3.2.19.0" % Test
+      "org.scalatestplus" %% "mockito-5-12" % "3.2.19.0" % Test,
+      "com.lihaoyi"       %% "requests"    % "0.9.3"    % Test
     ),
     scalacOptions ++= Seq(
       "-encoding", "UTF-8",

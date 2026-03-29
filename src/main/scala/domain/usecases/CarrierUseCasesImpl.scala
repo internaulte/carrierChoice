@@ -3,7 +3,6 @@ package domain.usecases
 import adapters.repositories.interfaces.CarrierRepository
 import domain.entities.*
 import domain.entities.utils.types.CostInMillis.CostInMillis
-import domain.entities.utils.types.SpeedInMetersPerSecond
 import domain.entities.utils.types.SpeedInMetersPerSecond.SpeedInMetersPerSecond
 import domain.usecases.interfaces.CarrierUseCases
 
@@ -11,7 +10,7 @@ import java.util.UUID
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-protected class CarrierUseCasesImpl(carrierRepository: CarrierRepository) extends CarrierUseCases {
+protected final class CarrierUseCasesImpl(carrierRepository: CarrierRepository) extends CarrierUseCases {
   override def createCarrier(
       deliveryCategory: DeliveryCategory,
       averageSpeed: SpeedInMetersPerSecond,
