@@ -1,7 +1,6 @@
 package domain.entities.utils.types
 
 import domain.entities.utils.types.DistanceInMeters.DistanceInMeters
-import domain.entities.utils.types.DurationInSeconds.DurationInSeconds
 import domain.entities.utils.types.Latitude.Latitude
 import domain.entities.utils.types.LatitudeInRadiants.LatitudeInRadiants
 import domain.entities.utils.types.LongNatural
@@ -11,9 +10,6 @@ import domain.entities.utils.types.LongitudeInRadiants.LongitudeInRadiants
 import domain.entities.utils.types.Natural.Natural
 import domain.entities.utils.types.NonZeroNaturalInt.NonZeroNaturalInt
 import domain.entities.utils.types.SpeedInMetersPerSecond.SpeedInMetersPerSecond
-import domain.entities.utils.types.VolumeInMillim3.VolumeInMillim3
-import domain.entities.utils.types.WeightInGram.WeightInGram
-import domain.entities.utils.types.{LongNatural, NonZeroNaturalInt}
 
 import scala.language.strictEquality
 

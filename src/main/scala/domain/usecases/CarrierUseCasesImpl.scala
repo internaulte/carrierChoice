@@ -1,9 +1,9 @@
 package domain.usecases
 
 import adapters.repositories.interfaces.CarrierRepository
-import domain.entities.utils.types.SpeedInMetersPerSecond
 import domain.entities.*
 import domain.entities.utils.types.CostInMillis.CostInMillis
+import domain.entities.utils.types.SpeedInMetersPerSecond
 import domain.entities.utils.types.SpeedInMetersPerSecond.SpeedInMetersPerSecond
 import domain.usecases.interfaces.CarrierUseCases
 

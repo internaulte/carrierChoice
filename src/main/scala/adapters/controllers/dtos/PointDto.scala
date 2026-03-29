@@ -2,8 +2,9 @@ package adapters.controllers.dtos
 
 import domain.entities.utils.Point
 import domain.entities.utils.types.{Latitude, Longitude}
+import upickle.default.*
 
-protected[controllers] final case class PointDto(latitude: Double, longitude: Double) {
+protected[controllers] final case class PointDto(latitude: Double, longitude: Double) derives ReadWriter {
   def toPoint: Option[Point] = {
     for {
       finalLatitude <- Latitude(latitude)

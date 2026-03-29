@@ -1,12 +1,12 @@
 package domain.entities
 
 import domain.entities.utils.types.CostInMillis.CostInMillis
-import domain.entities.utils.types.{DurationInSeconds, Natural}
 import domain.entities.utils.types.DurationInSeconds.DurationInSeconds
 import domain.entities.utils.types.Natural.Natural
 import domain.entities.utils.types.SpeedInMetersPerSecond.SpeedInMetersPerSecond
 import domain.entities.utils.types.VolumeInMillim3.VolumeInMillim3
 import domain.entities.utils.types.WeightInGram.WeightInGram
+import domain.entities.utils.types.{DurationInSeconds, Natural}
 import domain.entities.{Delivery, DeliveryCategory}
 
 import java.time.Duration

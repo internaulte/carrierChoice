@@ -14,6 +14,7 @@ lazy val root = (project in file("."))
       "-encoding", "UTF-8",
       "-deprecation",
       "-feature",
-      "-Xfatal-warnings"
+      "-Werror",
+      "-Wconf:msg=match may not be exhaustive:e"
     )
   )

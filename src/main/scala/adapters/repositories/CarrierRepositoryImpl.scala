@@ -1,8 +1,9 @@
 package adapters.repositories
 
 import adapters.repositories.interfaces.CarrierRepository
-import domain.entities.{Carrier, DeliveryCategory}
 import domain.entities.utils.types.SpeedInMetersPerSecond
+import domain.entities.{Carrier, DeliveryCategory}
+
 import java.util.UUID
 import scala.collection.mutable
 import scala.concurrent.ExecutionContext.Implicits.global

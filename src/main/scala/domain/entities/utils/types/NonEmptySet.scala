@@ -10,7 +10,7 @@ object NonEmptySet {
   }
 
   def fromSet[A](set: Set[A]): Option[NonEmptySet[A]] = set.headOption match {
-    case Some(head) => Some(apply(head, (set - head).toSeq: _*))
+    case Some(head) => Some(apply(head, (set - head).toSeq*))
     case None => None
   }
 
