@@ -3,9 +3,9 @@ package domain.entities.utils
 import domain.entities.utils.types.DistanceInMeters.DistanceInMeters
 import domain.entities.utils.types.Latitude.Latitude
 import domain.entities.utils.types.LatitudeInRadiants.LatitudeInRadiants
-import domain.entities.utils.types.LongitudeInRadiants.LongitudeInRadiants
 import domain.entities.utils.types.Longitude.Longitude
-import domain.entities.utils.types.{DistanceInMeters, Latitude, LatitudeInRadiants, LongNatural, Longitude, LongitudeInRadiants}
+import domain.entities.utils.types.LongitudeInRadiants.LongitudeInRadiants
+import domain.entities.utils.types.*
 
 import scala.math.*
 

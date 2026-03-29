@@ -1,24 +1,29 @@
 package adapters.controllers.dtos
 
-import domain.entities.utils.types.VolumeInMillim3.VolumeInMillim3
-import domain.entities.utils.types.WeightInGram.WeightInGram
-import domain.entities.{Area, DeliveryCategory, DeliveryTimeRange}
+import domain.entities.DeliveryCategory
 import domain.entities.utils.types.{VolumeInMillim3, WeightInGram}
+import upickle.default.*
 
 protected[controllers] final case class DeliveryCategoryDto(
     deliveryTimeRange: DeliveryTimeRangeDto,
     deliveryArea: AreaDto,
-    totalWeight: WeightInGram,
-    totalVolume: VolumeInMillim3,
-    maxPackageWeight: WeightInGram
-) {
-  def toDeliveryCategory: DeliveryCategory = {
-    DeliveryCategory(
-      deliveryTimeRange = deliveryTimeRange.toDeliveryTimeRange,
-      deliveryArea = deliveryArea.toArea,
-      totalWeight = totalWeight,
-      totalVolume = totalVolume,
-      maxPackageWeight = maxPackageWeight
+    totalWeight: Long,
+    totalVolume: Long,
+    maxPackageWeight: Long
+) derives ReadWriter {
+  def toDeliveryCategory: Option[DeliveryCategory] = {
+    for {
+      area <- deliveryArea.toArea
+      timeRange <- deliveryTimeRange.toDeliveryTimeRange
+      validTotalWeight <- WeightInGram(totalWeight)
+      validTotalVolume <- VolumeInMillim3(totalVolume)
+      validMaxPackageWeight <- WeightInGram(maxPackageWeight)
+    } yield DeliveryCategory(
+      deliveryTimeRange = timeRange,
+      deliveryArea = area,
+      totalWeight = validTotalWeight,
+      totalVolume = validTotalVolume,
+      maxPackageWeight = validMaxPackageWeight
     )
   }
 }

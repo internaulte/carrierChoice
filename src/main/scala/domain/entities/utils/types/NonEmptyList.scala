@@ -10,13 +10,13 @@ object NonEmptyList {
   }
 
   def fromList[A](list: List[A]): Option[NonEmptyList[A]] = list.headOption match {
-    case Some(head) => Some(apply(head, list.tail: _*))
+    case Some(head) => Some(apply(head, list.tail*))
     case None => None
   }
 
   def unsafe[A](iterable: Iterable[A]): NonEmptyList[A] = fromIterable(iterable).get
 
-  extension[A] (nonEmptyList: NonEmptyList[A]) {
+  extension [A](nonEmptyList: NonEmptyList[A]) {
     def mapExt[B](f: A => B): NonEmptyList[B] = nonEmptyList.map(f)
     def flatMapExt[B](f: A => IterableOnce[B]): NonEmptyList[B] = nonEmptyList.flatMap(f)
   }

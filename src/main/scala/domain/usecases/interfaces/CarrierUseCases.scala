@@ -25,5 +25,7 @@ trait CarrierUseCases {
 }
 
 object CarrierUseCases {
-  lazy val instance: CarrierUseCases = new CarrierUseCasesImpl(carrierRepository = CarrierRepository.instance)
+  lazy val instance: CarrierUseCases = create(CarrierRepository.instance)
+
+  def create(carrierRepository: CarrierRepository): CarrierUseCases = new CarrierUseCasesImpl(carrierRepository)
 }

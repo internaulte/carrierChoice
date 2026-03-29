@@ -15,8 +15,8 @@ final case class DeliveryTimeRange(
   lazy val duration: Duration = Duration.between(correctStartInterval, correctEndInterval)
 
   def containsTotally(otherRange: DeliveryTimeRange): Boolean = {
-    val isThisStartsBeforeOtherStarts = !(this.correctStartInterval isAfter otherRange.startInterval)
-    val isThisEndsAfterOtherEnds = !(otherRange.correctEndInterval isAfter this.correctEndInterval)
+    val isThisStartsBeforeOtherStarts = !this.correctStartInterval.isAfter(otherRange.startInterval)
+    val isThisEndsAfterOtherEnds = !otherRange.correctEndInterval.isAfter(this.correctEndInterval)
 
     isThisStartsBeforeOtherStarts && isThisEndsAfterOtherEnds
   }

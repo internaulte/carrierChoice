@@ -1,7 +1,7 @@
 package domain.entities
 
-import domain.entities.utils.types.Natural.Natural
 import domain.entities.utils.types.Natural
+import domain.entities.utils.types.Natural.Natural
 
 sealed trait CarrierCompatibility {
   val score: Natural

@@ -1,12 +1,11 @@
 package domain.entities
 
-import domain.entities.utils.types.{DistanceInMeters, VolumeInMillim3, WeightInGram}
 import domain.entities.utils.Point
-import domain.entities.utils.types.LongNatural
-import domain.entities.utils.types.VolumeInMillim3.VolumeInMillim3
-import domain.entities.utils.types.WeightInGram.WeightInGram
 import domain.entities.utils.types.DistanceInMeters.DistanceInMeters
 import domain.entities.utils.types.NonEmptyList.NonEmptyList
+import domain.entities.utils.types.VolumeInMillim3.VolumeInMillim3
+import domain.entities.utils.types.WeightInGram.WeightInGram
+import domain.entities.utils.types.{DistanceInMeters, LongNatural, VolumeInMillim3, WeightInGram}
 
 import java.util.UUID
 
@@ -27,13 +26,12 @@ final case class Delivery(
   override val (totalVolume: VolumeInMillim3, maxPackageWeight: WeightInGram, totalWeight: WeightInGram) =
     packages.foldLeft(
       (VolumeInMillim3.zero, WeightInGram.zero, WeightInGram.zero)
-    ) {
-      case ((totalVolume, maxSampleWeight, totalWeight), currentPackage) =>
-        (
-          totalVolume.addition(currentPackage.volume),
-          maxSampleWeight.getMaximum(currentPackage.weightInGram),
-          totalWeight.addition(currentPackage.weightInGram)
-        )
+    ) { case ((totalVolume, maxSampleWeight, totalWeight), currentPackage) =>
+      (
+        totalVolume.addition(currentPackage.volume),
+        maxSampleWeight.getMaximum(currentPackage.weightInGram),
+        totalWeight.addition(currentPackage.weightInGram)
+      )
     }
 
   lazy val travelDistance: DistanceInMeters = destination.distanceInMetersTo(withdrawal)

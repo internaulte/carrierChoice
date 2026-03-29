@@ -10,7 +10,7 @@ object NonEmptyVector {
   }
 
   def fromList[A](vector: Vector[A]): Option[NonEmptyVector[A]] = vector.headOption match {
-    case Some(head) => Some(apply(head, vector.tail: _*))
+    case Some(head) => Some(apply(head, vector.tail*))
     case None => None
   }
 

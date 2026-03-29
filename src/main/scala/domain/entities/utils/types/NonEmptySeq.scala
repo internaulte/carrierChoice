@@ -10,7 +10,7 @@ object NonEmptySeq {
   }
 
   def fromSeq[A](seq: Seq[A]): Option[NonEmptySeq[A]] = seq.headOption match {
-    case Some(head) => Some(apply(head, seq.tail: _*))
+    case Some(head) => Some(apply(head, seq.tail*))
     case None => None
   }
 
